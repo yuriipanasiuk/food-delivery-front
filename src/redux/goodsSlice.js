@@ -6,7 +6,6 @@ import {
   fetchById,
   fetchCart,
   fetchGoods,
-  updatePrice,
 } from "./operations";
 
 const initialState = {
@@ -15,7 +14,6 @@ const initialState = {
   good: {},
   cart: [],
   cartItems: [],
-  price: [],
 };
 
 const goodSlice = createSlice({
@@ -75,16 +73,6 @@ const goodSlice = createSlice({
         );
       })
       .addCase(deleteFromCart.rejected, (state) => {
-        state.isLoading = false;
-      })
-      .addCase(updatePrice.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(updatePrice.fulfilled, (state, action) => {
-        state.isLoading = false;
-        console.log(action);
-      })
-      .addCase(updatePrice.rejected, (state) => {
         state.isLoading = false;
       }),
 });

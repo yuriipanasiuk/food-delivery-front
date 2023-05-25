@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getCartGoods } from "../../redux/selectors";
-import { deleteFromCart, updatePrice } from "../../redux/operations";
+import { deleteFromCart } from "../../redux/operations";
 import Container from "../Container/Container";
 
 import {
@@ -37,10 +37,14 @@ const CartList = () => {
       return acc;
     }, {});
 
-    const totalPrice = goodsList.reduce((acc, item) => acc + +item.price, 0);
+    const totalPrice = goodsList.reduce(
+      (acc, item) => acc + item.price * (count[item.title] || 0),
+      0
+    );
 
     setSumm(totalPrice);
     setCount(initialCount);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [goodsList]);
 
   const handleClick = (id) => dispatch(deleteFromCart(id));
@@ -55,23 +59,29 @@ const CartList = () => {
   };
 
   const handleIncrement = (title, price) => {
-    setCount((prevState) => ({
-      ...prevState,
-      [title]: (prevState[title] || 0) + 1,
+    setCount((prevCount) => ({
+      ...prevCount,
+      [title]: (prevCount[title] || 0) + 1,
     }));
-    const foodPrice = count[title] * Number(price);
-    // const test = totalPrice + foodPrice;
-    setSumm((prevState) => prevState + foodPrice);
+
+    setSumm((prevSumm) => prevSumm + Number(price));
   };
 
-  const handleDecrement = (title) => {
-    setCount((prevState) => {
-      const updatedCount = (prevState[title] || 0) - 1;
+  const handleDecrement = (title, price) => {
+    if (count[title] === 1) {
+      return;
+    }
+
+    setCount((prevCount) => {
+      const updatedCount = (prevCount[title] || 0) - 1;
+
       return {
-        ...prevState,
+        ...prevCount,
         [title]: Math.max(updatedCount, 0),
       };
     });
+
+    setSumm((prevSumm) => prevSumm - Number(price));
   };
 
   return (
@@ -82,14 +92,14 @@ const CartList = () => {
             <Title>Cart</Title>
             <List>
               {goodsList.map(({ _id, title, url, price }) => (
-                <Item key={_id}>
+                <Item key={_id} data-price={price}>
                   <Image src={url} alt={title} />
                   <FoodName>{title}</FoodName>
                   <PriceWraper>
                     <CounterWraper>
                       <Decrement
                         size={22}
-                        onClick={() => handleDecrement(title)}
+                        onClick={() => handleDecrement(title, price)}
                       />
                       <CountInput
                         value={count[title] || 1}
@@ -113,7 +123,7 @@ const CartList = () => {
               ))}
             </List>
             <TotalPrice>
-              Total price: <Total>${summ.toFixed(2)}</Total>
+              Total price: <Total>${Number(summ).toFixed(2)}</Total>
             </TotalPrice>
           </>
         ) : (
@@ -125,5 +135,3 @@ const CartList = () => {
 };
 
 export default CartList;
-
-//TODO: add good counter
