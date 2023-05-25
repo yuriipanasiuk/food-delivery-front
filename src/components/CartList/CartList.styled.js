@@ -1,4 +1,6 @@
 import styled from "@emotion/styled";
+import { BsPlusLg } from "react-icons/bs";
+import { AiOutlineMinus } from "react-icons/ai";
 
 export const Layout = styled.section`
   padding-top: 20px;
@@ -32,6 +34,7 @@ export const Image = styled.img`
 
 export const PriceWraper = styled.div`
   display: flex;
+  justify-content: space-between;
   margin-left: auto;
 `;
 
@@ -65,4 +68,32 @@ export const Button = styled.button`
     color: white;
     scale: 1.12;
   }
+`;
+
+export const CountInput = styled.input`
+  width: 40px;
+  height: 27px;
+  margin-left: 8px;
+  margin-right: 8px;
+  border: 1px solid silver;
+  border-radius: 5px;
+  font-size: 18px;
+  text-align: center;
+`;
+
+export const CounterWraper = styled.div`
+  display: flex;
+  align-items: center;
+
+  margin-right: 16px;
+`;
+
+export const Increment = styled(BsPlusLg)`
+  cursor: pointer;
+  color: blue;
+`;
+
+export const Decrement = styled(AiOutlineMinus)`
+  cursor: pointer;
+  color: red;
 `;

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   addToCart,
   clearGood,
+  deleteFromCart,
   fetchById,
   fetchCart,
   fetchGoods,
@@ -59,6 +60,19 @@ const goodSlice = createSlice({
         state.cartItems = action.payload;
       })
       .addCase(fetchCart.rejected, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(deleteFromCart.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteFromCart.fulfilled, (state, action) => {
+        state.isLoading = false;
+
+        state.cartItems = state.cartItems.filter(
+          (item) => item._id !== action.payload
+        );
+      })
+      .addCase(deleteFromCart.rejected, (state) => {
         state.isLoading = false;
       }),
 });

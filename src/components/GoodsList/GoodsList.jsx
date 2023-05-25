@@ -33,6 +33,7 @@ const GoodsList = () => {
 
   const handleAddToCart = (id) => {
     dispatch(addToCart(id));
+    dispatch(clearGood());
   };
 
   return (
