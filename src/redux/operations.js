@@ -1,7 +1,8 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-axios.defaults.baseURL = "http://localhost:3001/api";
+// axios.defaults.baseURL = "http://localhost:3001/api";
+axios.defaults.baseURL = "https://food-delivery-39y8.onrender.com/api";
 
 export const fetchGoods = createAsyncThunk(
   "goods/fetchAll",
