@@ -72,3 +72,18 @@ export const deleteFromCart = createAsyncThunk(
     }
   }
 );
+
+export const updatePrice = createAsyncThunk(
+  "goods/priceUpdate",
+  async ({ credential }, thunkAPI) => {
+    try {
+      const response = await axios.patch(
+        `/basket/${credential.id}`,
+        `${credential.body}`
+      );
+      return response.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
+);

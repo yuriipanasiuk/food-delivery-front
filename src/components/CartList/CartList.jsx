@@ -1,8 +1,8 @@
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 
 import { getCartGoods } from "../../redux/selectors";
-import { deleteFromCart } from "../../redux/operations";
+import { deleteFromCart, updatePrice } from "../../redux/operations";
 import Container from "../Container/Container";
 
 import {
@@ -22,19 +22,24 @@ import {
   Increment,
   Decrement,
 } from "./CartList.styled";
-import { useState } from "react";
 
 const CartList = () => {
   const [count, setCount] = useState({});
-  const dispatch = useDispatch();
+  const [summ, setSumm] = useState();
+
   const goodsList = useSelector(getCartGoods);
-  const totalPrice = goodsList.reduce((acc, item) => acc + item.price, 0);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const initialCount = goodsList.reduce((acc, { title }) => {
       acc[title] = 1;
       return acc;
     }, {});
+
+    const totalPrice = goodsList.reduce((acc, item) => acc + +item.price, 0);
+
+    setSumm(totalPrice);
     setCount(initialCount);
   }, [goodsList]);
 
@@ -49,11 +54,14 @@ const CartList = () => {
     }));
   };
 
-  const handleIncrement = (title) => {
+  const handleIncrement = (title, price) => {
     setCount((prevState) => ({
       ...prevState,
       [title]: (prevState[title] || 0) + 1,
     }));
+    const foodPrice = count[title] * Number(price);
+    // const test = totalPrice + foodPrice;
+    setSumm((prevState) => prevState + foodPrice);
   };
 
   const handleDecrement = (title) => {
@@ -90,19 +98,22 @@ const CartList = () => {
                       />
                       <Increment
                         size={22}
-                        onClick={() => handleIncrement(title)}
+                        onClick={() => handleIncrement(title, price)}
                       />
                     </CounterWraper>
                     <Button type="button" onClick={() => handleClick(_id)}>
                       Delete
                     </Button>
-                    <Price>${price.toFixed(2).padStart(5, 0)}</Price>
+                    <Price>
+                      $
+                      {(count[title] * Number(price)).toFixed(2).padStart(5, 0)}
+                    </Price>
                   </PriceWraper>
                 </Item>
               ))}
             </List>
             <TotalPrice>
-              Total price: <Total>${totalPrice.toFixed(2)}</Total>
+              Total price: <Total>${summ.toFixed(2)}</Total>
             </TotalPrice>
           </>
         ) : (

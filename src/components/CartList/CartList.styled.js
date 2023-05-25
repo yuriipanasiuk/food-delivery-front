@@ -91,9 +91,19 @@ export const CounterWraper = styled.div`
 export const Increment = styled(BsPlusLg)`
   cursor: pointer;
   color: blue;
+
+  :hover {
+    scale: 1.2;
+    color: orange;
+  }
 `;
 
 export const Decrement = styled(AiOutlineMinus)`
   cursor: pointer;
   color: red;
+
+  :hover {
+    scale: 1.2;
+    color: orange;
+  }
 `;
