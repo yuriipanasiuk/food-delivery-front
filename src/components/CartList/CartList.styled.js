@@ -107,3 +107,34 @@ export const Decrement = styled(AiOutlineMinus)`
     color: orange;
   }
 `;
+
+export const OrderWraper = styled.div`
+  display: flex;
+  margin-left: auto;
+  margin-top: 24px;
+  padding: 12px;
+
+  align-items: center;
+  justify-content: center;
+  width: 600px;
+  height: 100px;
+  border: 1px solid orange;
+  background-color: #ffc12c30;
+  border-radius: 5px;
+`;
+
+export const OrderButton = styled.button`
+  width: 200px;
+  height: 40px;
+  margin-left: 16px;
+  border-radius: 5px;
+  border: 1px solid orange;
+  font-size: 22px;
+  background-color: white;
+  cursor: pointer;
+
+  :hover {
+    color: white;
+    background-color: red;
+  }
+`;

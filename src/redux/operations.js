@@ -30,7 +30,8 @@ export const clearGood = createAsyncThunk(
   "goods/clearGood",
   async (_, thunkAPI) => {
     try {
-      // const response = await axios.get(`/goods/${id}`);
+      const response = await axios.get(`/goods`);
+      return response.data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e.message);
     }
@@ -67,6 +68,46 @@ export const deleteFromCart = createAsyncThunk(
     try {
       await axios.delete(`/goods/${id}`);
       return id;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
+);
+
+export const submitOrder = createAsyncThunk(
+  "goods/submit",
+  async ({ name, email, phone, address }, thunkAPI) => {
+    try {
+      const response = await axios.post(`/order`, {
+        name,
+        email,
+        phone,
+        address,
+      });
+      return response.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
+);
+
+export const fetchAllOrder = createAsyncThunk(
+  "goods/order",
+  async (_, thunkAPI) => {
+    try {
+      const response = await axios.get(`/order`);
+      return response.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
+);
+
+export const removeBasket = createAsyncThunk(
+  "goods/order",
+  async (_, thunkAPI) => {
+    try {
+      await axios.delete(`/basket`);
     } catch (e) {
       return thunkAPI.rejectWithValue(e.message);
     }

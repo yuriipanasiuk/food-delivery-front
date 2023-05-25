@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { getCartGoods } from "../../redux/selectors";
 import { deleteFromCart } from "../../redux/operations";
 import Container from "../Container/Container";
+import Modal from "../CartModal/CartModal.jsx";
 
 import {
   Layout,
@@ -21,15 +23,20 @@ import {
   CounterWraper,
   Increment,
   Decrement,
+  OrderWraper,
+  OrderButton,
 } from "./CartList.styled";
+import OrderCart from "../OrderCart/OrderCart";
 
 const CartList = () => {
   const [count, setCount] = useState({});
   const [summ, setSumm] = useState();
+  const [showModal, setShowModal] = useState(false);
 
   const goodsList = useSelector(getCartGoods);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const initialCount = goodsList.reduce((acc, { title }) => {
@@ -84,6 +91,14 @@ const CartList = () => {
     setSumm((prevSumm) => prevSumm - Number(price));
   };
 
+  const makeOrder = () => {
+    setShowModal(true);
+  };
+
+  const modalClick = () => {
+    setShowModal(false);
+  };
+
   return (
     <Layout as={"main"}>
       <Container>
@@ -122,9 +137,28 @@ const CartList = () => {
                 </Item>
               ))}
             </List>
-            <TotalPrice>
-              Total price: <Total>${Number(summ).toFixed(2)}</Total>
-            </TotalPrice>
+
+            <div>
+              <TotalPrice>
+                Total price: <Total>${Number(summ).toFixed(2)}</Total>
+              </TotalPrice>
+
+              <OrderWraper>
+                <Total>${Number(summ).toFixed(2)}</Total>
+
+                <OrderButton type="button" onClick={makeOrder}>
+                  Place order
+                </OrderButton>
+                <OrderButton type="button" onClick={() => navigate("/")}>
+                  Сontinue shopping
+                </OrderButton>
+                {showModal && (
+                  <Modal onClick={modalClick}>
+                    <OrderCart />
+                  </Modal>
+                )}
+              </OrderWraper>
+            </div>
           </>
         ) : (
           <Title>Yout cart is empty</Title>

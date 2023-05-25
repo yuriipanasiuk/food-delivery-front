@@ -3,9 +3,12 @@ import {
   addToCart,
   clearGood,
   deleteFromCart,
+  fetchAllOrder,
   fetchById,
   fetchCart,
   fetchGoods,
+  removeBasket,
+  submitOrder,
 } from "./operations";
 
 const initialState = {
@@ -14,6 +17,7 @@ const initialState = {
   good: {},
   cart: [],
   cartItems: [],
+  history: [],
 };
 
 const goodSlice = createSlice({
@@ -73,6 +77,25 @@ const goodSlice = createSlice({
         );
       })
       .addCase(deleteFromCart.rejected, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(submitOrder.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(submitOrder.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(submitOrder.rejected, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(fetchAllOrder.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchAllOrder.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.history = action.payload;
+      })
+      .addCase(fetchAllOrder.rejected, (state) => {
         state.isLoading = false;
       }),
 });
