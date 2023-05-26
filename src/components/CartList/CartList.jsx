@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { PropagateLoader } from "react-spinners";
 
 import { getCartGoods } from "../../redux/selectors";
 import { deleteFromCart } from "../../redux/operations";
+import { getIsLoading } from "../../redux/selectors";
 import Container from "../Container/Container";
 import Modal from "../CartModal/CartModal.jsx";
+import OrderCart from "../OrderCart/OrderCart";
 
 import {
   Layout,
@@ -25,8 +28,8 @@ import {
   Decrement,
   OrderWraper,
   OrderButton,
+  Loader,
 } from "./CartList.styled";
-import OrderCart from "../OrderCart/OrderCart";
 
 const CartList = () => {
   const [count, setCount] = useState({});
@@ -37,6 +40,7 @@ const CartList = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isLoading = useSelector(getIsLoading);
 
   useEffect(() => {
     const initialCount = goodsList.reduce((acc, { title }) => {
@@ -107,6 +111,7 @@ const CartList = () => {
         {goodsList.length > 0 ? (
           <>
             <Title>Cart</Title>
+            <Loader>{isLoading && <PropagateLoader color="orange" />}</Loader>
             <List>
               {goodsList.map(({ _id, title, url, price }) => (
                 <Item key={_id} data-price={price}>
@@ -139,7 +144,6 @@ const CartList = () => {
                 </Item>
               ))}
             </List>
-
             <div>
               <TotalPrice>
                 Total price: <Total>${Number(summ).toFixed(2)}</Total>

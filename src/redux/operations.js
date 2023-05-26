@@ -27,11 +27,58 @@ export const fetchById = createAsyncThunk(
   }
 );
 
+export const fetchDrinks = createAsyncThunk(
+  "goods/fetchDrinks",
+  async (_, thunkAPI) => {
+    try {
+      const response = await axios.get("/drink");
+      return response.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
+);
+export const fetchDrinkById = createAsyncThunk(
+  "goods/fetchDrink",
+  async (id, thunkAPI) => {
+    try {
+      const response = await axios.get(`/drink/${id}`);
+      return response.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
+);
+
 export const clearGood = createAsyncThunk(
   "goods/clearGood",
   async (_, thunkAPI) => {
     try {
       const response = await axios.get(`/goods`);
+      return response.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
+);
+
+export const addDrinkToCart = createAsyncThunk(
+  "goods/addToCart",
+  async (id, thunkAPI) => {
+    try {
+      const response = await axios.post("/drink", { id });
+      return response.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
+);
+
+export const clearDrink = createAsyncThunk(
+  "goods/clearGood",
+  async (_, thunkAPI) => {
+    try {
+      const response = await axios.get(`/drink`);
       return response.data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e.message);

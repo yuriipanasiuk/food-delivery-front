@@ -7,7 +7,6 @@ import {
   fetchById,
   fetchCart,
   fetchGoods,
-  removeBasket,
   submitOrder,
 } from "./operations";
 
@@ -61,6 +60,7 @@ const goodSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(fetchCart.fulfilled, (state, action) => {
+        state.isLoading = false;
         state.cartItems = action.payload;
       })
       .addCase(fetchCart.rejected, (state) => {

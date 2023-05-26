@@ -138,3 +138,8 @@ export const OrderButton = styled.button`
     background-color: red;
   }
 `;
+
+export const Loader = styled.div`
+  display: flex;
+  justify-content: center;
+`;

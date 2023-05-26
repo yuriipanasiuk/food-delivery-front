@@ -16,7 +16,8 @@ const Header = () => {
             />
           </Link>
           <NavLayout>
-            <StyledLink to="/">Home</StyledLink>
+            <StyledLink to="/">Burgers</StyledLink>
+            <StyledLink to="/drinks">Drinks</StyledLink>
             <StyledLink to="/history">History</StyledLink>
             <StyledLink to="/cart">
               <HiOutlineShoppingCart size={26} />

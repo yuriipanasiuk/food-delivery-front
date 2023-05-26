@@ -36,7 +36,7 @@ const OrderForm = () => {
     }, 1000);
 
     resetForm();
-    navigate("/");
+    removeBasket();
   };
   return (
     <>
@@ -65,12 +65,7 @@ const OrderForm = () => {
               />
             </label>
             <ButtonWraper>
-              <SubmitButton
-                type="submit"
-                onClick={() => dispatch(removeBasket())}
-              >
-                Submit
-              </SubmitButton>
+              <SubmitButton type="submit">Submit</SubmitButton>
             </ButtonWraper>
           </Form>
         </Formik>

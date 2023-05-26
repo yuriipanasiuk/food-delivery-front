@@ -1,11 +1,14 @@
 import { useSelector, useDispatch } from "react-redux";
 import { PropagateLoader } from "react-spinners";
 
-import { getGood, getGoods } from "../../redux/selectors";
-import { fetchById, clearGood, addToCart } from "../../redux/operations";
+import { getDrink, getDrinks, getDrinkIsLoading } from "../../redux/selectors";
+import {
+  fetchDrinkById,
+  clearDrink,
+  addDrinkToCart,
+} from "../../redux/operations";
 import CartModal from "../CartModal/CartModal";
 import Container from "../Container/Container";
-import { getIsLoading } from "../../redux/selectors";
 import {
   List,
   Item,
@@ -23,56 +26,56 @@ import {
   ButtonWraper,
   Button,
   Loader,
-} from "./GoodList.styled";
+} from "./DrinksList.styled";
 
-const GoodsList = () => {
-  const goods = useSelector(getGoods);
-  const good = useSelector(getGood);
+const DrinksList = () => {
+  const drinks = useSelector(getDrinks);
+  const drink = useSelector(getDrink);
   const dispatch = useDispatch();
-  const isLoading = useSelector(getIsLoading);
+  const isLoading = useSelector(getDrinkIsLoading);
 
   const handleClick = (id) => {
-    dispatch(fetchById(id));
+    dispatch(fetchDrinkById(id));
   };
 
   const handleAddToCart = (id) => {
-    dispatch(addToCart(id));
-    dispatch(clearGood());
+    dispatch(addDrinkToCart(id));
+    dispatch(clearDrink());
   };
 
   return (
     <Layout as={"main"}>
       <Container>
-        <Title>burgers and rolls</Title>
+        <Title>drinks</Title>
         {isLoading ? (
           <Loader>
             <PropagateLoader color="orange" />
           </Loader>
         ) : (
           <List>
-            {goods.map(({ _id, title, price, url }) => (
+            {drinks.map(({ _id, title, price, url }) => (
               <Item key={_id}>
                 <div onClick={() => handleClick(_id)}>
                   <Img src={url} alt={title} />
                   <Name>{title}</Name>
                   <Price>
                     Price:
-                    <PriceText>${price.toFixed(2).padStart(5, 0)}</PriceText>
+                    <PriceText>${price}</PriceText>
                   </Price>
                 </div>
 
-                {Object.keys(good).length > 0 && (
-                  <CartModal onClick={() => dispatch(clearGood())}>
+                {Object.keys(drink).length > 0 && (
+                  <CartModal onClick={() => dispatch(clearDrink())}>
                     <Wraper>
-                      <ModalImg src={good.url} alt={good.title} />
-                      <GoodTitle>{good.title}</GoodTitle>
+                      <ModalImg src={drink.url} alt={drink.title} />
+                      <GoodTitle>{drink.title}</GoodTitle>
                       <GoodPrice>
-                        Price: <StyledPrice>${good.price}</StyledPrice>
+                        Price: <StyledPrice>${drink.price}</StyledPrice>
                       </GoodPrice>
                       <ButtonWraper>
                         <Button
                           type="button"
-                          onClick={() => handleAddToCart(good._id)}
+                          onClick={() => handleAddToCart(drink._id)}
                         >
                           Add to cart
                         </Button>
@@ -89,4 +92,4 @@ const GoodsList = () => {
   );
 };
 
-export default GoodsList;
+export default DrinksList;
