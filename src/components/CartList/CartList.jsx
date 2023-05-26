@@ -51,8 +51,7 @@ const CartList = () => {
 
     setSumm(totalPrice);
     setCount(initialCount);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [goodsList]);
+  }, [count, goodsList]);
 
   const handleClick = (id) => dispatch(deleteFromCart(id));
 
