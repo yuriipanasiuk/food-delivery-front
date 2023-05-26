@@ -54,7 +54,7 @@ const CartList = () => {
     );
 
     setSumm(totalPrice);
-  }, [goodsList, count]);
+  }, [count]);
 
   const handleClick = (id) => dispatch(deleteFromCart(id));
 
