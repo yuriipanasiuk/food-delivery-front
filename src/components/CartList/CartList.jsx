@@ -44,14 +44,17 @@ const CartList = () => {
       return acc;
     }, {});
 
+    setCount(initialCount);
+  }, [goodsList]);
+
+  useEffect(() => {
     const totalPrice = goodsList.reduce(
       (acc, item) => acc + item.price * (count[item.title] || 0),
       0
     );
 
     setSumm(totalPrice);
-    setCount(initialCount);
-  }, [count, goodsList]);
+  }, [goodsList, count]);
 
   const handleClick = (id) => dispatch(deleteFromCart(id));
 
