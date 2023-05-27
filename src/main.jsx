@@ -9,7 +9,7 @@ import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter basename="food-delyvery-front">
+    <BrowserRouter basename="/food-delyvery-front">
       <Provider store={store}>
         <App />
       </Provider>
