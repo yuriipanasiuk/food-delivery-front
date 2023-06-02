@@ -1,10 +1,23 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 import {
   clearDrink,
   fetchDrinks,
   fetchDrinkById,
   addDrinkToCart,
 } from "./operations";
+import {
+  addDrinkToCartSuccessReducer,
+  clearDrinkSuccessReducer,
+  fetchDrinkByIdSuccessReducer,
+  fetchDrinksSuccessReducer,
+  fulfilledReducer,
+  pendingReducer,
+  rejectedReducer,
+} from "./drinkReducers";
+
+const extraActions = [clearDrink, fetchDrinks, fetchDrinkById, addDrinkToCart];
+const getAction = (type) =>
+  isAnyOf(...extraActions.map((action) => action[type]));
 
 const initialState = {
   drink: {},
@@ -18,45 +31,13 @@ const drinkSlice = createSlice({
   initialState,
   extraReducers: (builder) =>
     builder
-      .addCase(fetchDrinks.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(fetchDrinks.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.drinks = action.payload;
-      })
-      .addCase(fetchDrinks.rejected, (state) => {
-        state.isLoading = false;
-      })
-      .addCase(fetchDrinkById.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(fetchDrinkById.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.drink = action.payload;
-      })
-      .addCase(fetchDrinkById.rejected, (state) => {
-        state.isLoading = false;
-      })
-      .addCase(clearDrink.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(clearDrink.fulfilled, (state) => {
-        state.drink = {};
-      })
-      .addCase(clearDrink.rejected, (state) => {
-        state.isLoading = false;
-      })
-      .addCase(addDrinkToCart.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(addDrinkToCart.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.drinkCart.push(action.payload);
-      })
-      .addCase(addDrinkToCart.rejected, (state) => {
-        state.isLoading = false;
-      }),
+      .addCase(fetchDrinks.fulfilled, fetchDrinksSuccessReducer)
+      .addCase(fetchDrinkById.fulfilled, fetchDrinkByIdSuccessReducer)
+      .addCase(clearDrink.fulfilled, clearDrinkSuccessReducer)
+      .addCase(addDrinkToCart.fulfilled, addDrinkToCartSuccessReducer)
+      .addMatcher(getAction("pending"), pendingReducer)
+      .addMatcher(getAction("fulfilled"), fulfilledReducer)
+      .addMatcher(getAction("rejected"), rejectedReducer),
 });
 
 export const drinkReducer = drinkSlice.reducer;

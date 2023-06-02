@@ -1,9 +1,12 @@
 import { Routes, Route } from "react-router-dom";
-import Home from "../pages/Home";
-import History from "../pages/History";
+import { lazy } from "react";
+
 import SharedLayout from "./SharedLayout/SharedLayout";
-import Cart from "../pages/Cart";
-import Drinks from "../pages/Drinks";
+import Home from "../pages/Home";
+
+const History = lazy(() => import("../pages/History.jsx"));
+const Cart = lazy(() => import("../pages/Cart"));
+const Drinks = lazy(() => import("../pages/Drinks"));
 
 function App() {
   return (
