@@ -151,13 +151,6 @@ export const fetchAllOrder = createAsyncThunk(
   }
 );
 
-export const removeBasket = createAsyncThunk(
-  "goods/order",
-  async (_, thunkAPI) => {
-    try {
-      await axios.delete(`/basket`);
-    } catch (e) {
-      return thunkAPI.rejectWithValue(e.message);
-    }
-  }
-);
+export const clearBasket = async () => {
+  await axios.delete(`/basket`);
+};

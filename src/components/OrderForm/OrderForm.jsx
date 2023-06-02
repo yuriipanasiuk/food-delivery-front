@@ -1,7 +1,7 @@
 import { Formik } from "formik";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { submitOrder, removeBasket, fetchCart } from "../../redux/operations";
+
+import { submitOrder, clearBasket, fetchCart } from "../../redux/operations";
 
 import {
   Form,
@@ -22,7 +22,6 @@ const inintialValue = {
 
 const OrderForm = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const handleSubmit = (data, { resetForm }) => {
     if (data === "") {
@@ -36,7 +35,7 @@ const OrderForm = () => {
     }, 1000);
 
     resetForm();
-    removeBasket();
+    clearBasket();
   };
   return (
     <>

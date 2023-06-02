@@ -6,8 +6,8 @@ import {
   fetchAllOrder,
   fetchById,
   fetchCart,
-  fetchGoods,
   submitOrder,
+  fetchGoods,
 } from "./operations";
 
 const initialState = {
