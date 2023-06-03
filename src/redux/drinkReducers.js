@@ -3,11 +3,11 @@ export const fetchDrinksSuccessReducer = (state, action) => {
 };
 
 export const fetchDrinkByIdSuccessReducer = (state, action) => {
-  state.good = action.payload;
+  state.drink = action.payload;
 };
 
 export const clearDrinkSuccessReducer = (state) => {
-  state.good = {};
+  state.drink = {};
 };
 
 export const addDrinkToCartSuccessReducer = (state, action) => {
